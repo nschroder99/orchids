@@ -106,6 +106,8 @@ h1{font-weight:800;font-size:1.5rem;line-height:1.1;margin:0;color:var(--orchid)
 .login .go{min-height:60px;border-radius:14px;border:0;background:var(--orchid);color:var(--surface);font-weight:700;font-size:1.15rem;cursor:pointer}
 .login .err{color:var(--no);font-weight:600}
 .loading{padding:60px 16px;text-align:center;color:var(--muted);font-size:1.1rem}
+.members summary{cursor:pointer;font-weight:600;color:var(--orchid);padding:6px 0;list-style-position:inside}
+.members div{font-size:.95rem;color:var(--muted);padding-top:4px}
 .auto-note{font-weight:600;color:var(--yes)}
 .more{margin-top:16px;width:100%;min-height:56px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-weight:700;cursor:pointer}
 </style>
@@ -169,7 +171,7 @@ const norm=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()
 const hasAddr=r=>!!r.b&&!/address not listed|No address listed/.test(r.b);
 function setList(list){
   R.length=0; for(const k in byId) delete byId[k];
-  list.forEach(r=>{r.t=r.t||[];r.f=r.f||[];r.i=r.i||[];r._hay=norm([r.n,r.b,r.a,...r.t].join(' '));R.push(r);byId[r.id]=r});
+  list.forEach(r=>{r.t=r.t||[];r.f=r.f||[];r.i=r.i||[];r.m=r.m||[];r._hay=norm([r.n,r.b,r.a,...r.t,...r.m].join(' '));R.push(r);byId[r.id]=r});
 }
 
 const TABS=[
@@ -216,6 +218,8 @@ function card(r){
   const c=el('article',{class:'card','data-s':s||''},
     el('div',{}, el('div',{class:'name'},r.n), addr),
     about.length?el('div',{class:'about'},about.join(' · ')):null,
+    r.m.length?el('div',{class:'about'},`One answer covers all ${r.m.length} staff members.`):null,
+    r.m.length?el('details',{class:'members'},el('summary',{},`See all ${r.m.length} names`),el('div',{},r.m.join(', '))):null,
     r.f.map(f=>el('div',{class:'flag'},f)),
     r.i.map(f=>el('div',{class:'about'},f)),
     note&&editing!==r.id?el('div',{class:'mynote'},el('b',{},'Your note: '),note):null
