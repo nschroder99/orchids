@@ -106,6 +106,7 @@ h1{font-weight:800;font-size:1.5rem;line-height:1.1;margin:0;color:var(--orchid)
 .login .go{min-height:60px;border-radius:14px;border:0;background:var(--orchid);color:var(--surface);font-weight:700;font-size:1.15rem;cursor:pointer}
 .login .err{color:var(--no);font-weight:600}
 .loading{padding:60px 16px;text-align:center;color:var(--muted);font-size:1.1rem}
+.auto-note{font-weight:600;color:var(--yes)}
 .more{margin-top:16px;width:100%;min-height:56px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-weight:700;cursor:pointer}
 </style>
 </head>
@@ -172,9 +173,9 @@ function setList(list){
 }
 
 const TABS=[
-  ['todo','To do', r=>!st(r.id)],
-  ['yes','Yes', r=>st(r.id)==='yes'],
-  ['no','No', r=>st(r.id)==='no'],
+  ['todo','To do', r=>!r.auto&&!st(r.id)],
+  ['yes','Yes', r=>r.auto||st(r.id)==='yes'],
+  ['no','No', r=>!r.auto&&st(r.id)==='no'],
   ['all','Everyone', ()=>true],
 ];
 const fn=Object.fromEntries(TABS.map(t=>[t[0],t[2]]));
@@ -182,12 +183,12 @@ const fn=Object.fromEntries(TABS.map(t=>[t[0],t[2]]));
 function visible(){
   const qs=norm(query).split(' ').filter(Boolean);
   if(qs.length) return R.filter(r=>qs.every(w=>r._hay.includes(w)));   // search always covers everyone
-  return R.filter(r=>fn[filter](r)||keep.has(r.id));
+  return R.filter(r=>!r.auto&&(fn[filter](r)||keep.has(r.id)));      // 101 CPW shows as one summary card instead
 }
 
 function renderHead(){
   $('#fab').hidden=!canWrite;
-  let done=0; R.forEach(r=>{if(st(r.id))done++});
+  let done=0; R.forEach(r=>{if(r.auto||st(r.id))done++});
   $('#progress').textContent=`${done} of ${R.length} done`;
   const tabs=$('#tabs'); tabs.textContent='';
   if(query) tabs.setAttribute('data-off',''); else tabs.removeAttribute('data-off');
@@ -200,7 +201,7 @@ function renderHead(){
   });
   const hint=$('#hint');
   if(query) hint.innerHTML='Showing <b>everyone</b> who matches your search.';
-  else if(filter==='todo') hint.innerHTML='Tap <b>Yes</b> or <b>No</b> for each person. Your answers save by themselves.';
+  else if(filter==='todo') hint.innerHTML='Tap <b>Yes</b> or <b>No</b> for each person. Your answers save by themselves. Everyone at 101 Central Park West is already included.';
   else hint.textContent='';
   hint.hidden=!hint.textContent;
 }
@@ -219,6 +220,11 @@ function card(r){
     r.i.map(f=>el('div',{class:'about'},f)),
     note&&editing!==r.id?el('div',{class:'mynote'},el('b',{},'Your note: '),note):null
   );
+  if(r.auto){
+    c.setAttribute('data-s','yes');
+    c.append(el('div',{class:'auto-note'},'Always gets an orchid. No decision needed.'));
+    return c;
+  }
   if(editing===r.id){
     const ta=el('textarea',{id:'ta-'+r.id});
     ta.value=note;
@@ -247,12 +253,17 @@ function renderList(){
   const list=$('#list'); list.textContent='';
   for(const k in cardEls) delete cardEls[k];
   const v=visible();
-  if(!v.length){
+  if(!v.length&&!(!query&&(filter==='yes'||filter==='all'))){
     const msg=query?['No one found',`Nobody on the list matches “${query}”. Try just a last name or the building number.`]
       :filter==='todo'?['All done!','Every person has a Yes or No. Tap “Yes” or “No” above to look them over.']
       :['No one here yet','Tap “To do” above to keep going.'];
     list.append(el('div',{class:'empty'},el('strong',{},msg[0]),msg[1])); return;
   }
+  const autoN=R.filter(r=>r.auto).length;
+  if(!query&&(filter==='yes'||filter==='all')&&autoN) list.append(el('article',{class:'card summary','data-s':'yes'},
+    el('div',{class:'name'},'101 Central Park West'),
+    el('div',{class:'addr'},`All ${autoN} entries are always included, so they’re counted as done. That’s every resident plus the resident manager and staff.`),
+    el('div',{class:'auto-note'},'Search “101 Central” to see each name.')));
   v.slice(0,shown).forEach(r=>list.append(cardEls[r.id]=card(r)));
   if(v.length>shown) list.append(el('button',{class:'more',onclick:()=>{shown+=60;renderList()}},`Show more (${v.length-shown} left)`));
 }
