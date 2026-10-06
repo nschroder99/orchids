@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#7c2f70">
+<title>Orchid List 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: one plain column of large cards; a sticky top bar holds progress, search and four big tabs. */
+:root{
+  --bg:#f4f2f6; --surface:#ffffff; --ink:#15121a; --muted:#4f4858; --line:#cfc8d8;
+  --orchid:#7c2f70; --orchid-soft:#f4e7f1;
+  --yes:#1e6e42; --yes-bg:#e1f1e7; --no:#a8302f; --no-bg:#f8e3e3;
+  --flag:#6b4600; --flag-bg:#fcefcf; --flag-line:#e5c26e;
+  --body:"Figtree",ui-sans-serif,system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131017; --surface:#1f1b25; --ink:#f6f2f9; --muted:#c3bacc; --line:#463e50;
+  --orchid:#e6a2d8; --orchid-soft:#3a2536;
+  --yes:#7fd6a2; --yes-bg:#1b3125; --no:#f39a9a; --no-bg:#3b1f22;
+  --flag:#f6d283; --flag-bg:#33280f; --flag-line:#6e5620; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131017; --surface:#1f1b25; --ink:#f6f2f9; --muted:#c3bacc; --line:#463e50;
+  --orchid:#e6a2d8; --orchid-soft:#3a2536;
+  --yes:#7fd6a2; --yes-bg:#1b3125; --no:#f39a9a; --no-bg:#3b1f22;
+  --flag:#f6d283; --flag-bg:#33280f; --flag-line:#6e5620; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+:root{padding-top:env(safe-area-inset-top,0px)}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:18px/1.45 var(--body);-webkit-text-size-adjust:100%}
+.wrap{max-width:600px;margin:0 auto;padding-inline:16px;padding-block:0 60px}
+button{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orchid);outline-offset:2px}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:14px 12px;border-bottom:2px solid var(--line);display:grid;gap:12px}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-weight:800;font-size:1.5rem;line-height:1.1;margin:0;color:var(--orchid)}
+.progress{font-size:1rem;font-weight:600;font-variant-numeric:tabular-nums}
+.search{position:relative}
+.search input{width:100%;font:inherit;font-size:18px;padding:14px 52px 14px 16px;border:2px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink)}
+.search input::placeholder{color:var(--muted)}
+.search button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:var(--line);border-radius:10px;padding:8px 12px;font-size:.85rem;font-weight:600;cursor:pointer}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tab{border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:9px 4px;font-size:.95rem;font-weight:600;cursor:pointer;line-height:1.15;font-variant-numeric:tabular-nums}
+.tab small{display:block;font-weight:500;font-size:.8rem;color:var(--muted)}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-pressed="true"] small{color:inherit;opacity:.8}
+.tabs[data-off] .tab{opacity:.45}
+.note-line{font-size:.95rem;color:var(--muted);margin:0}
+.note-line b{color:var(--ink)}
+
+.banner{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--flag-bg);color:var(--flag);font-size:.95rem;border:1px solid var(--flag-line)}
+.saved{font-size:.9rem;color:var(--muted)}
+.saved.err{color:var(--no);font-weight:600}
+
+.list{display:grid;gap:14px;margin-top:16px}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px}
+.card[data-s="yes"]{border-color:var(--yes);background:var(--yes-bg)}
+.card[data-s="no"]{border-color:var(--no);background:var(--no-bg)}
+.name{font-weight:700;font-size:1.2rem;line-height:1.25;overflow-wrap:anywhere}
+.addr{font-size:1.05rem;margin-top:2px;overflow-wrap:anywhere}
+.addr .apt{font-weight:600;white-space:nowrap}
+.about{font-size:.95rem;color:var(--muted)}
+.flag{font-size:1rem;padding:10px 12px;border-radius:10px;background:var(--flag-bg);color:var(--flag);border:1px solid var(--flag-line)}
+.mynote{font-size:1rem;padding:10px 12px;border-radius:10px;background:var(--orchid-soft);white-space:pre-wrap;overflow-wrap:anywhere}
+.mynote b{color:var(--orchid)}
+.acts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.act{display:flex;align-items:center;justify-content:center;gap:6px;min-height:58px;border-radius:14px;border:2px solid currentColor;background:var(--surface);font-weight:700;font-size:1.1rem;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.act svg{width:24px;height:24px;flex:none}
+.act.y{color:var(--yes)} .act.n{color:var(--no)} .act.c{color:var(--orchid)}
+.act.y[aria-pressed="true"]{background:var(--yes);border-color:var(--yes);color:var(--surface)}
+.act.n[aria-pressed="true"]{background:var(--no);border-color:var(--no);color:var(--surface)}
+.act:disabled{opacity:.4;cursor:default}
+.editor{display:grid;gap:10px}
+.editor label{font-weight:600}
+.editor textarea{width:100%;min-height:110px;font:inherit;font-size:18px;padding:12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);resize:vertical}
+.editor .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.editor button{min-height:52px;border-radius:12px;font-weight:700;cursor:pointer;border:2px solid var(--line);background:var(--surface)}
+.editor .save-n{background:var(--orchid);border-color:var(--orchid);color:var(--surface)}
+.empty{margin-top:40px;text-align:center;font-size:1.05rem;color:var(--muted)}
+.empty strong{display:block;font-size:1.3rem;color:var(--ink);margin-bottom:6px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:8;display:flex;align-items:center;gap:8px;min-height:60px;padding:0 22px;border-radius:30px;border:0;background:var(--orchid);color:var(--surface);font-weight:700;font-size:1.1rem;box-shadow:0 6px 18px rgba(40,10,40,.28);cursor:pointer}
+.fab svg{width:24px;height:24px}
+.wrap{padding-bottom:110px}
+.sheet{position:fixed;inset:0;z-index:10;background:rgba(20,10,25,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet form{background:var(--bg);width:100%;max-width:600px;max-height:92%;overflow-y:auto;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:grid;gap:14px}
+.sheet h2{margin:0;font-size:1.35rem;font-weight:800}
+.field{display:grid;gap:6px}
+.field label{font-weight:600}
+.field input,.field textarea{width:100%;font:inherit;font-size:18px;padding:13px 14px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)}
+.field textarea{min-height:90px;resize:vertical}
+.field .err{color:var(--no);font-weight:600;font-size:.95rem}
+.sheet .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sheet .row button{min-height:56px;border-radius:14px;font-weight:700;cursor:pointer;border:2px solid var(--line);background:var(--surface)}
+.sheet .row .go{background:var(--orchid);border-color:var(--orchid);color:var(--surface)}
+.remove{justify-self:start;border:0;background:none;color:var(--no);font-weight:600;text-decoration:underline;padding:6px 0;cursor:pointer}
+.login{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.login form{width:100%;max-width:420px;display:grid;gap:14px}
+.login h1{font-size:2rem;margin-bottom:8px}
+.login label{font-weight:600;font-size:1.1rem}
+.login input{width:100%;font:inherit;font-size:20px;padding:16px;border:2px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink)}
+.login .go{min-height:60px;border-radius:14px;border:0;background:var(--orchid);color:var(--surface);font-weight:700;font-size:1.15rem;cursor:pointer}
+.login .err{color:var(--no);font-weight:600}
+.loading{padding:60px 16px;text-align:center;color:var(--muted);font-size:1.1rem}
+.more{margin-top:16px;width:100%;min-height:56px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="login" id="login" hidden>
+  <form id="loginform" novalidate>
+    <h1>Orchids 2026</h1>
+    <label for="code">Type the passcode</label>
+    <input id="code" type="password" autocomplete="current-password" autocapitalize="none" enterkeyhint="go">
+    <span class="err" id="code-err" hidden></span>
+    <button type="submit" class="go" id="code-go">Open the list</button>
+  </form>
+</div>
+<div class="loading" id="loading">Loading the list…</div>
+<div class="wrap" id="app" hidden>
+  <div class="bar">
+    <div class="top"><h1>Orchids 2026</h1><span class="progress" id="progress"></span></div>
+    <div class="search"><input id="q" type="search" placeholder="Search name or address" autocomplete="off" enterkeyhint="search" aria-label="Search by name or address"><button id="qx" hidden>Clear</button></div>
+    <div class="tabs" id="tabs" role="group" aria-label="Show"></div>
+    <p class="note-line" id="hint"></p>
+  </div>
+  <div id="banner" class="banner" hidden></div>
+  <div class="list" id="list"></div>
+  <p class="saved" id="save" style="text-align:center;margin-top:18px"></p>
+</div>
+<button class="fab" id="fab" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add someone</button>
+<div class="sheet" id="sheet" hidden>
+  <form id="addform" novalidate>
+    <h2>Add someone to the list</h2>
+    <div class="field"><label for="f-n">Name</label><input id="f-n" autocomplete="off" placeholder="e.g. Mary & John Smith"><span class="err" id="f-err" hidden>Please type a name.</span></div>
+    <div class="field"><label for="f-b">Address</label><input id="f-b" autocomplete="off" placeholder="e.g. 90 Riverside Drive"></div>
+    <div class="field"><label for="f-a">Apartment</label><input id="f-a" autocomplete="off" placeholder="e.g. 12B"></div>
+    <div class="field"><label for="f-note">Note (optional)</label><textarea id="f-note"></textarea></div>
+    <div class="row"><button type="button" id="f-cancel">Cancel</button><button type="submit" class="go">Add</button></div>
+  </form>
+</div>
+
+<script>
+(function(){
+const API='https://dlemsbbvsftxdchdsztt.supabase.co/rest/v1/rpc/';
+const KEY='sb_publishable_OOvTsDO48LGHDm8h9dOv9Q_xienRnIs';
+const R=[], byId={}, D={};
+let code='', canWrite=true;
+let filter='todo', query='', keep=new Set(), editing=null, shown=60;
+const LS='orchid2026';
+const ls={get(k){try{return JSON.parse(localStorage.getItem(LS+k))}catch(e){return null}},set(k,v){try{localStorage.setItem(LS+k,JSON.stringify(v))}catch(e){}}};
+const pref=ls.get(':tab'); if(pref) filter=pref;
+
+const $=s=>document.querySelector(s);
+const el=(t,a={},...kids)=>{const e=document.createElement(t);for(const k in a){if(k==='class')e.className=a[k];else if(k.startsWith('on'))e.addEventListener(k.slice(2),a[k]);else if(a[k]!==false&&a[k]!=null)e.setAttribute(k,a[k]===true?'':a[k])}for(const c of kids.flat())if(c!=null&&c!==false)e.append(c.nodeType?c:document.createTextNode(c));return e};
+const ICON={
+  y:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  n:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg>'
+};
+const st=id=>(D[id]&&D[id].s)||null;
+const nt=id=>(D[id]&&D[id].note)||'';
+const norm=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()
+  .replace(/\bdr\b/g,'drive').replace(/\bblvd\b/g,'boulevard').replace(/\bave\b/g,'avenue').replace(/\bst\b/g,'street').replace(/\bcpw\b/g,'central park west');
+const hasAddr=r=>!!r.b&&!/address not listed|No address listed/.test(r.b);
+function setList(list){
+  R.length=0; for(const k in byId) delete byId[k];
+  list.forEach(r=>{r.t=r.t||[];r.f=r.f||[];r.i=r.i||[];r._hay=norm([r.n,r.b,r.a,...r.t].join(' '));R.push(r);byId[r.id]=r});
+}
+
+const TABS=[
+  ['todo','To do', r=>!st(r.id)],
+  ['yes','Yes', r=>st(r.id)==='yes'],
+  ['no','No', r=>st(r.id)==='no'],
+  ['all','Everyone', ()=>true],
+];
+const fn=Object.fromEntries(TABS.map(t=>[t[0],t[2]]));
+
+function visible(){
+  const qs=norm(query).split(' ').filter(Boolean);
+  if(qs.length) return R.filter(r=>qs.every(w=>r._hay.includes(w)));   // search always covers everyone
+  return R.filter(r=>fn[filter](r)||keep.has(r.id));
+}
+
+function renderHead(){
+  $('#fab').hidden=!canWrite;
+  let done=0; R.forEach(r=>{if(st(r.id))done++});
+  $('#progress').textContent=`${done} of ${R.length} done`;
+  const tabs=$('#tabs'); tabs.textContent='';
+  if(query) tabs.setAttribute('data-off',''); else tabs.removeAttribute('data-off');
+  TABS.forEach(([k,label,f])=>{
+    tabs.append(el('button',{class:'tab','aria-pressed':String(!query&&filter===k),onclick:()=>{
+      filter=k; keep.clear(); editing=null; shown=60; ls.set(':tab',k);
+      if(query){query='';$('#q').value='';$('#qx').hidden=true}
+      renderList(); window.scrollTo({top:0});
+    }},label,el('small',{},String(R.filter(f).length))));
+  });
+  const hint=$('#hint');
+  if(query) hint.innerHTML='Showing <b>everyone</b> who matches your search.';
+  else if(filter==='todo') hint.innerHTML='Tap <b>Yes</b> or <b>No</b> for each person. Your answers save by themselves.';
+  else hint.textContent='';
+  hint.hidden=!hint.textContent;
+}
+
+const cardEls={};
+function card(r){
+  const s=st(r.id), note=nt(r.id), ro=!canWrite;
+  const addr = hasAddr(r)
+    ? el('div',{class:'addr'}, r.b, r.a?[', ',el('span',{class:'apt'},'Apt '+r.a)]:null)
+    : el('div',{class:'addr'}, 'No address on file');
+  const about=[...r.t]; if(r.new) about.unshift(r.new);
+  const c=el('article',{class:'card','data-s':s||''},
+    el('div',{}, el('div',{class:'name'},r.n), addr),
+    about.length?el('div',{class:'about'},about.join(' · ')):null,
+    r.f.map(f=>el('div',{class:'flag'},f)),
+    r.i.map(f=>el('div',{class:'about'},f)),
+    note&&editing!==r.id?el('div',{class:'mynote'},el('b',{},'Your note: '),note):null
+  );
+  if(editing===r.id){
+    const ta=el('textarea',{id:'ta-'+r.id});
+    ta.value=note;
+    c.append(el('div',{class:'editor'},
+      el('label',{for:'ta-'+r.id},'Note about '+r.n),
+      ta,
+      el('div',{class:'row'},
+        el('button',{onclick:()=>{editing=null;refresh(r.id)}},'Cancel'),
+        el('button',{class:'save-n',onclick:()=>{const v=ta.value.trim();editing=null;keep.add(r.id);write(r.id,{note:v})}},'Save note')),
+      r.x?el('button',{class:'remove',onclick:()=>removeAdded(r)},'Remove '+r.n+' from the list'):null));
+    setTimeout(()=>{ta.focus();ta.scrollIntoView({block:'center',behavior:'smooth'})},0);
+  } else {
+    const b=(k,label,pressed,on)=>{const x=el('button',{class:'act '+k,'aria-pressed':String(pressed),disabled:ro,onclick:on});x.innerHTML=(ICON[k]||'')+'<span>'+label+'</span>';return x};
+    c.append(el('div',{class:'acts'},
+      b('y','Yes',s==='yes',()=>decide(r.id,'yes')),
+      b('n','No',s==='no',()=>decide(r.id,'no')),
+      b('c',note?'Edit note':'Note',false,()=>{editing=r.id;refresh(r.id)})
+    ));
+  }
+  return c;
+}
+function refresh(id){const old=cardEls[id];if(!old)return;const n=card(byId[id]);old.replaceWith(n);cardEls[id]=n}
+
+function renderList(){
+  renderHead();
+  const list=$('#list'); list.textContent='';
+  for(const k in cardEls) delete cardEls[k];
+  const v=visible();
+  if(!v.length){
+    const msg=query?['No one found',`Nobody on the list matches “${query}”. Try just a last name or the building number.`]
+      :filter==='todo'?['All done!','Every person has a Yes or No. Tap “Yes” or “No” above to look them over.']
+      :['No one here yet','Tap “To do” above to keep going.'];
+    list.append(el('div',{class:'empty'},el('strong',{},msg[0]),msg[1])); return;
+  }
+  v.slice(0,shown).forEach(r=>list.append(cardEls[r.id]=card(r)));
+  if(v.length>shown) list.append(el('button',{class:'more',onclick:()=>{shown+=60;renderList()}},`Show more (${v.length-shown} left)`));
+}
+
+let pending=0;
+function status(t,err){const s=$('#save');s.textContent=t;s.classList.toggle('err',!!err)}
+function decide(id,s){keep.add(id);write(id,{s:st(id)===s?null:s})}
+function apply(id,patch){
+  const cur=D[id]||{s:null,note:''};const next={s:cur.s||null,note:cur.note||'',...patch};
+  if(!next.s&&!next.note) delete D[id]; else D[id]=next; return next;
+}
+async function rpc(fn,args,tries=2){
+  for(let i=0;;i++){
+    try{
+      const r=await fetch(API+fn,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({p_code:code,...args})});
+      if(!r.ok) throw new Error('http '+r.status);
+      const j=await r.json();
+      if(j&&j.error==='bad_code'){ls.set(':code',null);showLogin('The passcode has changed. Please type it again.');throw new Error('bad_code')}
+      return j;
+    }catch(e){ if(e.message==='bad_code'||i>=tries) throw e; await new Promise(z=>setTimeout(z,700*(i+1))); }
+  }
+}
+const chain={};   // one save at a time per person, in tap order
+function write(id,patch){
+  const next=apply(id,patch); refresh(id); renderHead();
+  pending++; status('Saving…');
+  chain[id]=(chain[id]||Promise.resolve()).then(()=>rpc('orchid_decide',{p_id:id,p_s:next.s,p_note:next.note}))
+    .then(()=>{if(--pending===0)status('All answers saved')},
+          e=>{pending--; if(e.message!=='bad_code') status('That answer didn’t save. Check the internet connection and tap it again.',true)});
+}
+function showBanner(t){const b=$('#banner');b.textContent=t;b.hidden=false}
+
+const sheet=$('#sheet');
+function openSheet(){['f-n','f-b','f-a','f-note'].forEach(i=>$('#'+i).value='');$('#f-err').hidden=true;sheet.hidden=false;setTimeout(()=>$('#f-n').focus(),50)}
+function closeSheet(){sheet.hidden=true}
+$('#fab').addEventListener('click',openSheet);
+$('#f-cancel').addEventListener('click',closeSheet);
+sheet.addEventListener('click',e=>{if(e.target===sheet)closeSheet()});
+$('#addform').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const n=$('#f-n').value.trim(); if(!n){$('#f-err').hidden=false;$('#f-n').focus();return}
+  const b=$('#f-b').value.trim(), a=$('#f-a').value.trim(), note=$('#f-note').value.trim();
+  const go=$('#addform .go'); go.disabled=true; go.textContent='Adding…';
+  try{
+    const j=await rpc('orchid_add',{p_n:n,p_b:b,p_a:a,p_note:note},0);
+    const r={id:j.id,n,b,a,t:[],f:[],i:[],new:'Added by you',x:true}; r._hay=norm([n,b,a].join(' '));
+    R.unshift(r); byId[r.id]=r; D[r.id]={s:'yes',note};
+    keep.add(r.id); closeSheet();
+    if(query){query='';$('#q').value='';$('#qx').hidden=true}
+    renderList(); window.scrollTo({top:0,behavior:'smooth'}); status('All answers saved');
+  }catch(err){ if(err.message!=='bad_code') $('#f-err').textContent='That didn’t save. Check the internet connection and tap Add again.', $('#f-err').hidden=false; }
+  finally{ go.disabled=false; go.textContent='Add'; }
+});
+async function removeAdded(r){
+  const i=R.indexOf(r); if(i>=0) R.splice(i,1); delete byId[r.id]; delete D[r.id]; editing=null; renderList();
+  try{ await rpc('orchid_remove',{p_id:r.id}); status('All answers saved'); }
+  catch(err){ if(err.message!=='bad_code') status('Couldn’t remove them. Check the internet connection and try again.',true); }
+}
+
+let qt;
+$('#q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{query=e.target.value.trim();$('#qx').hidden=!query;editing=null;shown=60;renderList()},200)});
+$('#qx').addEventListener('click',()=>{query='';$('#q').value='';$('#qx').hidden=true;keep.clear();renderList()});
+function showLogin(msg){
+  $('#app').hidden=true; $('#loading').hidden=true; $('#login').hidden=false; $('#fab').hidden=true; $('#sheet').hidden=true;
+  const e=$('#code-err'); e.textContent=msg||''; e.hidden=!msg; $('#code').value=''; setTimeout(()=>$('#code').focus(),50);
+}
+async function load(c,fromLogin){
+  code=c;
+  const go=$('#code-go'); go.disabled=true; go.textContent='Opening…';
+  try{
+    const r=await fetch(API+'orchid_load',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({p_code:c})});
+    const j=await r.json();
+    if(!r.ok||j.error){ ls.set(':code',null); showLogin(fromLogin?'That passcode isn’t right. Please try again.':''); return; }
+    ls.set(':code',c);
+    setList(j.recipients); for(const k in D) delete D[k]; Object.assign(D,j.decisions||{});
+    $('#login').hidden=true; $('#loading').hidden=true; $('#app').hidden=false;
+    status('All answers saved'); renderList();
+  }catch(e){
+    if(fromLogin) showLogin('Couldn’t reach the list. Check the internet connection and try again.');
+    else { $('#loading').textContent='Couldn’t reach the list. Check the internet connection, then reload the page.'; }
+  }finally{ go.disabled=false; go.textContent='Open the list'; }
+}
+$('#loginform').addEventListener('submit',e=>{e.preventDefault();const c=$('#code').value.trim();if(!c){showLogin('Please type the passcode.');return}load(c,true)});
+// pick up changes made on another phone when she comes back to the page
+document.addEventListener('visibilitychange',async()=>{
+  if(document.hidden||!code||pending||editing||!$('#sheet').hidden) return;
+  try{const j=await rpc('orchid_load',{},0); setList(j.recipients); for(const k in D) delete D[k]; Object.assign(D,j.decisions||{}); renderList();}catch(e){}
+});
+const saved=ls.get(':code'); if(saved) load(saved,false); else showLogin();
+
+})();
+</script>
+</body>
+</html>
